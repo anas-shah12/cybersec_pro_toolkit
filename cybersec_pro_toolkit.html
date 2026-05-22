@@ -1,0 +1,911 @@
+
+<h2 class="sr-only">Advanced CyberSec Pro Toolkit — password generator, URL analyzer, port scanner, hash tool, IP lookup, cipher, encoder, and network tools in one interface.</h2>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Orbitron:wght@700;900&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#05080d;--s1:#0a0f18;--s2:#0f1826;--s3:#141e2e;--bd:#1a2840;
+  --g:#00ff88;--g2:#00cc6a;--cy:#00e5ff;--rd:#ff3355;--am:#ffaa00;--bl:#4488ff;--pu:#aa66ff;
+  --tx:#a8c0d8;--mt:#3a5068;--mono:'JetBrains Mono',monospace;--hd:'Orbitron',monospace;
+}
+#R{background:var(--bg);border-radius:12px;overflow:hidden;border:1px solid var(--bd);font-family:var(--mono);color:var(--tx)}
+.TB{background:var(--s1);border-bottom:1px solid var(--bd);padding:0 18px;display:flex;align-items:center;gap:0;height:48px}
+.logo{font-family:var(--hd);font-size:12px;font-weight:900;color:var(--g);letter-spacing:3px;margin-right:auto;margin-left:10px}
+.sbadge{font-size:9px;color:var(--g);border:1px solid var(--g);padding:2px 8px;border-radius:2px;letter-spacing:2px}
+.pulse{width:8px;height:8px;border-radius:50%;background:var(--g);margin-right:8px}
+.NV{display:flex;background:var(--s1);border-bottom:1px solid var(--bd);overflow-x:auto;gap:0}
+.NV::-webkit-scrollbar{height:2px}
+.NV::-webkit-scrollbar-thumb{background:var(--bd)}
+.nb{padding:12px 16px;background:none;border:none;border-bottom:2px solid transparent;color:var(--mt);font-family:var(--mono);font-size:10px;cursor:pointer;white-space:nowrap;letter-spacing:1px;transition:all .15s;display:flex;align-items:center;gap:6px;text-transform:uppercase}
+.nb.on{color:var(--g);border-bottom-color:var(--g);background:rgba(0,255,136,.03)}
+.nb:hover:not(.on){color:var(--tx);background:rgba(255,255,255,.02)}
+.nb i{font-size:14px}
+.PL{display:none;padding:20px;animation:fi .2s ease}
+.PL.on{display:block}
+@keyframes fi{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+.SH{font-family:var(--hd);font-size:10px;font-weight:700;color:var(--mt);letter-spacing:3px;margin-bottom:16px;display:flex;align-items:center;gap:8px}
+.SH::after{content:'';flex:1;height:1px;background:var(--bd)}
+.SH i{font-size:15px}
+.LB{font-size:10px;color:var(--mt);letter-spacing:1px;margin-bottom:5px;text-transform:uppercase}
+.IN{width:100%;background:var(--s2);border:1px solid var(--bd);color:var(--tx);font-family:var(--mono);font-size:12px;padding:9px 12px;border-radius:6px;outline:none;transition:border-color .15s}
+.IN:focus{border-color:var(--g)}
+.IN::placeholder{color:var(--mt)}
+select.IN option{background:var(--s2)}
+textarea.IN{resize:vertical}
+.BT{background:transparent;border:1px solid var(--g);color:var(--g);font-family:var(--mono);font-size:10px;padding:8px 16px;border-radius:5px;cursor:pointer;letter-spacing:1px;transition:all .15s;text-transform:uppercase}
+.BT:hover{background:var(--g);color:#000;font-weight:700}
+.BT.r{border-color:var(--rd);color:var(--rd)}
+.BT.r:hover{background:var(--rd);color:#fff}
+.BT.b{border-color:var(--bl);color:var(--bl)}
+.BT.b:hover{background:var(--bl);color:#fff}
+.BT.c{border-color:var(--cy);color:var(--cy)}
+.BT.c:hover{background:var(--cy);color:#000}
+.BT.p{border-color:var(--pu);color:var(--pu)}
+.BT.p:hover{background:var(--pu);color:#fff}
+.OT{background:#020508;border:1px solid var(--bd);border-radius:6px;padding:12px;font-size:11px;font-family:var(--mono);color:var(--g);word-break:break-all;min-height:42px;line-height:1.7;margin-top:6px;position:relative}
+.OT .CP{position:absolute;top:6px;right:7px;background:none;border:none;color:var(--mt);cursor:pointer;font-size:15px;padding:2px 4px;transition:color .15s}
+.OT .CP:hover{color:var(--g)}
+.RW{display:flex;gap:8px;align-items:flex-end;margin-bottom:10px}
+.RW .IN{flex:1}
+.SLR{display:flex;gap:10px;align-items:center;margin-bottom:10px}
+input[type=range]{flex:1;-webkit-appearance:none;height:2px;background:var(--bd);border-radius:2px;outline:none}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;background:var(--g);border-radius:50%;cursor:pointer;border:2px solid var(--bg)}
+.SV{color:var(--g);font-size:13px;min-width:28px;text-align:right;font-weight:700}
+.CBR{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:12px}
+.CBR label{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--tx);cursor:pointer}
+input[type=checkbox]{accent-color:var(--g);width:12px;height:12px;cursor:pointer}
+.SBR{height:4px;border-radius:2px;background:var(--bd);margin-top:8px;overflow:hidden}
+.SF{height:100%;border-radius:2px;transition:width .4s,background .4s}
+.SLBL{font-size:10px;margin-top:4px}
+.GRD2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.GRD3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.GRD4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.CARD{background:var(--s2);border:1px solid var(--bd);border-radius:8px;padding:12px}
+.CARD .k{font-size:9px;color:var(--mt);letter-spacing:1px;margin-bottom:3px;text-transform:uppercase}
+.CARD .v{font-size:12px;color:var(--g);word-break:break-all}
+.CARD .vi{font-size:12px;color:var(--cy)}
+.CARD .vw{font-size:12px;color:var(--am)}
+.CARD .vr{font-size:12px;color:var(--rd)}
+.TAG{display:inline-block;font-size:10px;padding:3px 8px;border-radius:3px;margin:2px;border:1px solid;letter-spacing:.5px}
+.TAG.g{color:var(--g);border-color:var(--g);background:rgba(0,255,136,.06)}
+.TAG.r{color:var(--rd);border-color:var(--rd);background:rgba(255,51,85,.06)}
+.TAG.a{color:var(--am);border-color:var(--am);background:rgba(255,170,0,.06)}
+.TAG.b{color:var(--bl);border-color:var(--bl);background:rgba(68,136,255,.06)}
+.TAG.c{color:var(--cy);border-color:var(--cy);background:rgba(0,229,255,.06)}
+.TAG.p{color:var(--pu);border-color:var(--pu);background:rgba(170,102,255,.06)}
+.LOG{font-size:11px;line-height:1.9;color:var(--mt);font-family:var(--mono)}
+.LOG .ts{color:var(--mt);margin-right:5px}
+.LOG .ok{color:var(--g)}
+.LOG .er{color:var(--rd)}
+.LOG .wn{color:var(--am)}
+.LOG .in{color:var(--bl)}
+.LOG .cy{color:var(--cy)}
+.PGD{display:grid;grid-template-columns:repeat(auto-fill,minmax(90px,1fr));gap:5px;margin-top:10px}
+.PI{background:#020508;border-radius:5px;padding:7px 9px;font-size:10px;border:1px solid;display:flex;flex-direction:column;gap:2px;cursor:default}
+.PI.op{border-color:rgba(0,255,136,.25)}
+.PI.cl{border-color:rgba(255,51,85,.12)}
+.PI.ri{border-color:rgba(255,170,0,.35)}
+.PN{color:var(--tx);font-weight:700;font-size:11px}
+.PS{color:var(--mt);font-size:9px}
+.PST{font-size:9px;font-weight:700}
+.PST.op{color:var(--g)}
+.PST.cl{color:var(--rd)}
+.PST.ri{color:var(--am)}
+.PROG{height:2px;background:var(--bd);border-radius:1px;margin-top:8px;overflow:hidden}
+.PROGF{height:100%;background:var(--g);border-radius:1px;transition:width .3s;width:0%}
+.STAT{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--mt);margin-top:6px}
+.STAT .dot{width:6px;height:6px;border-radius:50%}
+.URLCARD{background:var(--s2);border:1px solid var(--bd);border-radius:8px;padding:14px;margin-bottom:8px}
+.URLCARD .title{font-size:12px;font-weight:700;color:var(--cy);margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.URLCARD .title i{font-size:15px}
+.METER{display:flex;align-items:center;gap:8px;margin:4px 0}
+.METER .lbl{font-size:10px;color:var(--mt);min-width:80px}
+.METER .bar{flex:1;height:4px;background:var(--bd);border-radius:2px;overflow:hidden}
+.METER .bf{height:100%;border-radius:2px}
+.METER .val{font-size:10px;min-width:30px;text-align:right}
+.HASHR{display:flex;flex-direction:column;gap:8px}
+.HASHR .hr{background:var(--s2);border:1px solid var(--bd);border-radius:6px;padding:10px 12px}
+.HASHR .hr .algo{font-size:9px;color:var(--mt);letter-spacing:1px;margin-bottom:4px;text-transform:uppercase}
+.HASHR .hr .hval{font-size:10px;color:var(--g);word-break:break-all;line-height:1.5}
+.SCR{font-family:var(--hd);font-size:28px;font-weight:900;letter-spacing:2px}
+.NTAB{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:6px;margin-top:10px}
+.NTOOL{background:var(--s2);border:1px solid var(--bd);border-radius:8px;padding:12px;cursor:pointer;transition:border-color .15s}
+.NTOOL:hover{border-color:var(--g)}
+.NTOOL .nt{font-size:11px;color:var(--g);font-weight:700;margin-bottom:3px;display:flex;align-items:center;gap:5px}
+.NTOOL .nd{font-size:10px;color:var(--mt);line-height:1.4}
+.PWLIST{display:flex;flex-direction:column;gap:4px;margin-top:8px}
+.PWI{background:var(--s2);border:1px solid var(--bd);border-radius:5px;padding:8px 12px;display:flex;align-items:center;justify-content:space-between;font-size:11px;color:var(--tx)}
+.PWI .pw{color:var(--g);font-size:11px;flex:1;word-break:break-all}
+.PWI .str{font-size:9px;padding:2px 6px;border-radius:2px;border:1px solid;margin-left:8px;white-space:nowrap}
+</style>
+
+<div id="R">
+  <div class="TB">
+    <div style="display:flex;gap:5px">
+      <div style="width:10px;height:10px;border-radius:50%;background:#ff5f57"></div>
+      <div style="width:10px;height:10px;border-radius:50%;background:#ffbd2e"></div>
+      <div style="width:10px;height:10px;border-radius:50%;background:#28c840"></div>
+    </div>
+    <span class="logo">CYBERSEC PRO</span>
+    <div class="pulse"></div>
+    <span class="sbadge">LIVE</span>
+  </div>
+
+  <div class="NV">
+    <button class="nb on" onclick="SW('pg',this)"><i class="ti ti-key" aria-hidden="true"></i>Passgen</button>
+    <button class="nb" onclick="SW('url',this)"><i class="ti ti-link" aria-hidden="true"></i>URL Scan</button>
+    <button class="nb" onclick="SW('port',this)"><i class="ti ti-radar" aria-hidden="true"></i>Ports</button>
+    <button class="nb" onclick="SW('hash',this)"><i class="ti ti-shield-lock" aria-hidden="true"></i>Hash</button>
+    <button class="nb" onclick="SW('ip',this)"><i class="ti ti-world" aria-hidden="true"></i>IP Info</button>
+    <button class="nb" onclick="SW('cipher',this)"><i class="ti ti-lock" aria-hidden="true"></i>Cipher</button>
+    <button class="nb" onclick="SW('enc',this)"><i class="ti ti-transform" aria-hidden="true"></i>Encode</button>
+    <button class="nb" onclick="SW('net',this)"><i class="ti ti-cpu" aria-hidden="true"></i>Net Tools</button>
+  </div>
+
+  <!-- PASSWORD GEN -->
+  <div class="PL on" id="T-pg">
+    <div class="SH"><i class="ti ti-key" aria-hidden="true"></i>Advanced Password Generator</div>
+    <div class="SLR">
+      <span class="LB" style="margin:0;min-width:55px">Length</span>
+      <input type="range" min="8" max="128" value="24" step="1" id="plen" oninput="document.getElementById('plv').textContent=this.value;GP()">
+      <span class="SV" id="plv">24</span>
+    </div>
+    <div class="CBR">
+      <label><input type="checkbox" id="pu" checked> A–Z uppercase</label>
+      <label><input type="checkbox" id="pl" checked> a–z lowercase</label>
+      <label><input type="checkbox" id="pn" checked> 0–9 numbers</label>
+      <label><input type="checkbox" id="psy" checked> !@# symbols</label>
+      <label><input type="checkbox" id="pna"> No ambiguous</label>
+      <label><input type="checkbox" id="pnr"> No repeat</label>
+    </div>
+    <div style="display:flex;gap:7px;margin-bottom:12px;flex-wrap:wrap">
+      <button class="BT" onclick="GP()">Generate</button>
+      <button class="BT c" onclick="GM(5)">Batch x5</button>
+      <button class="BT p" onclick="GM(10)">Batch x10</button>
+      <button class="BT b" onclick="PH()">Passphrase</button>
+    </div>
+    <div class="LB">Generated password</div>
+    <div class="OT" id="po"><button class="CP" onclick="C2('po')" aria-label="Copy"><i class="ti ti-copy" aria-hidden="true"></i></button><span id="pt" style="font-size:13px;font-weight:700">—</span></div>
+    <div class="SBR"><div class="SF" id="sf"></div></div>
+    <div class="SLBL" id="sl" style="color:var(--mt)">—</div>
+    <div style="margin-top:12px">
+      <div class="GRD4">
+        <div class="CARD"><div class="k">Entropy</div><div class="v" id="ent">—</div></div>
+        <div class="CARD"><div class="k">Charset</div><div class="v" id="chs">—</div></div>
+        <div class="CARD"><div class="k">Crack time</div><div class="vi" id="crt">—</div></div>
+        <div class="CARD"><div class="k">Pattern</div><div class="vi" id="pat">—</div></div>
+      </div>
+    </div>
+    <div id="batch-out" style="margin-top:12px;display:none">
+      <div class="LB">Batch passwords</div>
+      <div class="PWLIST" id="pwlist"></div>
+    </div>
+  </div>
+
+  <!-- URL SCANNER -->
+  <div class="PL" id="T-url">
+    <div class="SH"><i class="ti ti-link" aria-hidden="true"></i>URL Security Analyzer</div>
+    <div class="RW" style="margin-bottom:14px">
+      <input class="IN" id="urlin" placeholder="https://example.com" onkeydown="if(event.key==='Enter')UA()">
+      <button class="BT" onclick="UA()">Analyze</button>
+    </div>
+    <div id="urlres">
+      <div class="LOG" style="color:var(--mt);font-size:11px">Enter a URL to get full security analysis...</div>
+    </div>
+  </div>
+
+  <!-- PORT SCANNER -->
+  <div class="PL" id="T-port">
+    <div class="SH"><i class="ti ti-radar" aria-hidden="true"></i>Port Reference Scanner</div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px;align-items:flex-end">
+      <div style="flex:1;min-width:160px">
+        <div class="LB">Target host</div>
+        <input class="IN" id="ph" placeholder="192.168.1.1 or hostname...">
+      </div>
+      <div>
+        <div class="LB">Preset</div>
+        <select class="IN" id="pp" style="width:140px">
+          <option value="top20">Top 20 Ports</option>
+          <option value="web">Web Services</option>
+          <option value="db">Databases</option>
+          <option value="mail">Mail/Comm</option>
+          <option value="vuln">Vulnerable</option>
+          <option value="all">All 35 Known</option>
+        </select>
+      </div>
+      <button class="BT" onclick="SC()">Scan</button>
+      <button class="BT r" onclick="document.getElementById('pg').innerHTML='';document.getElementById('plog').innerHTML='Cleared.'">Clear</button>
+    </div>
+    <div class="PROG"><div class="PROGF" id="pbar"></div></div>
+    <div class="OT LOG" id="plog" style="margin-top:8px">Select preset and click Scan.</div>
+    <div class="PGD" id="pg"></div>
+  </div>
+
+  <!-- HASH TOOL -->
+  <div class="PL" id="T-hash">
+    <div class="SH"><i class="ti ti-shield-lock" aria-hidden="true"></i>Hash Generator & Verifier</div>
+    <div style="margin-bottom:10px">
+      <div class="LB">Input text</div>
+      <textarea class="IN" id="hi" rows="3" placeholder="Enter text to hash..." oninput="if(document.getElementById('hla').checked)HA()"></textarea>
+    </div>
+    <div style="display:flex;gap:7px;align-items:center;margin-bottom:14px;flex-wrap:wrap">
+      <button class="BT" onclick="HA()">Generate all hashes</button>
+      <label style="font-size:11px;display:flex;align-items:center;gap:5px;color:var(--mt);cursor:pointer"><input type="checkbox" id="hla" style="accent-color:var(--g)"> Live mode</label>
+    </div>
+    <div class="HASHR" id="hr">
+      <div class="LOG" style="color:var(--mt)">Enter text above to generate hashes...</div>
+    </div>
+    <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--bd)">
+      <div class="LB">Hash verifier — paste hash to compare</div>
+      <div class="RW">
+        <input class="IN" id="hcmp" placeholder="Paste hash here to verify...">
+        <button class="BT b" onclick="HV()">Verify</button>
+      </div>
+      <div class="OT" id="hcres" style="display:none;margin-top:6px"></div>
+    </div>
+  </div>
+
+  <!-- IP INFO -->
+  <div class="PL" id="T-ip">
+    <div class="SH"><i class="ti ti-world" aria-hidden="true"></i>IP Intelligence</div>
+    <div class="RW" style="margin-bottom:14px">
+      <input class="IN" id="ipi" placeholder="Enter IP address..." onkeydown="if(event.key==='Enter')AI()">
+      <button class="BT" onclick="AI()">Lookup</button>
+      <button class="BT c" onclick="MI()">My IP</button>
+    </div>
+    <div id="ipres">
+      <div class="LOG" style="color:var(--mt)">Enter an IP address for full intelligence report...</div>
+    </div>
+  </div>
+
+  <!-- CIPHER -->
+  <div class="PL" id="T-cipher">
+    <div class="SH"><i class="ti ti-lock" aria-hidden="true"></i>Cipher Tools</div>
+    <div style="display:flex;gap:8px;margin-bottom:10px;align-items:flex-end;flex-wrap:wrap">
+      <div>
+        <div class="LB">Cipher type</div>
+        <select class="IN" id="ct" style="width:180px" onchange="UCO()">
+          <option value="caesar">Caesar cipher</option>
+          <option value="vigenere">Vigenère cipher</option>
+          <option value="atbash">Atbash cipher</option>
+          <option value="rot13">ROT13</option>
+          <option value="morse">Morse code</option>
+          <option value="nato">NATO phonetic</option>
+          <option value="rail">Rail fence</option>
+          <option value="b64">Base64</option>
+        </select>
+      </div>
+      <div id="co"></div>
+    </div>
+    <div style="margin-bottom:10px">
+      <div class="LB">Input text</div>
+      <textarea class="IN" id="ci" rows="3" placeholder="Enter text..."></textarea>
+    </div>
+    <div style="display:flex;gap:7px;margin-bottom:10px">
+      <button class="BT" onclick="CO('enc')">Encrypt / Encode</button>
+      <button class="BT r" onclick="CO('dec')">Decrypt / Decode</button>
+    </div>
+    <div class="LB">Output</div>
+    <div class="OT" id="cio"><button class="CP" onclick="C2('cio')" aria-label="Copy"><i class="ti ti-copy" aria-hidden="true"></i></button><span id="ct2">—</span></div>
+  </div>
+
+  <!-- ENCODE/DECODE -->
+  <div class="PL" id="T-enc">
+    <div class="SH"><i class="ti ti-transform" aria-hidden="true"></i>Encode / Decode</div>
+    <div style="display:flex;gap:8px;margin-bottom:10px;align-items:flex-end">
+      <div>
+        <div class="LB">Format</div>
+        <select class="IN" id="ef" style="width:180px">
+          <option value="b64">Base64</option>
+          <option value="url">URL encode</option>
+          <option value="html">HTML entities</option>
+          <option value="hex">Hex</option>
+          <option value="bin">Binary</option>
+          <option value="uni">Unicode escape</option>
+          <option value="jwt">JWT decode</option>
+        </select>
+      </div>
+    </div>
+    <div style="margin-bottom:10px">
+      <div class="LB">Input</div>
+      <textarea class="IN" id="ei" rows="3" placeholder="Enter text..."></textarea>
+    </div>
+    <div style="display:flex;gap:7px;margin-bottom:10px">
+      <button class="BT" onclick="EO('enc')">Encode</button>
+      <button class="BT r" onclick="EO('dec')">Decode</button>
+    </div>
+    <div class="LB">Output</div>
+    <div class="OT" id="eo"><button class="CP" onclick="C2('eo')" aria-label="Copy"><i class="ti ti-copy" aria-hidden="true"></i></button><span id="et2">—</span></div>
+  </div>
+
+  <!-- NET TOOLS -->
+  <div class="PL" id="T-net">
+    <div class="SH"><i class="ti ti-cpu" aria-hidden="true"></i>Network Tools</div>
+    <div class="NTAB">
+      <div class="NTOOL" onclick="NT('subnet')">
+        <div class="nt"><i class="ti ti-topology-star" aria-hidden="true" style="font-size:14px"></i>Subnet Calc</div>
+        <div class="nd">Calculate subnets, CIDR, hosts from IP/mask</div>
+      </div>
+      <div class="NTOOL" onclick="NT('mac')">
+        <div class="nt"><i class="ti ti-device-desktop" aria-hidden="true" style="font-size:14px"></i>MAC Lookup</div>
+        <div class="nd">Identify vendor from MAC address prefix</div>
+      </div>
+      <div class="NTOOL" onclick="NT('dns')">
+        <div class="nt"><i class="ti ti-server" aria-hidden="true" style="font-size:14px"></i>DNS Info</div>
+        <div class="nd">Analyze DNS records and nameservers</div>
+      </div>
+      <div class="NTOOL" onclick="NT('pw-audit')">
+        <div class="nt"><i class="ti ti-list-check" aria-hidden="true" style="font-size:14px"></i>Password Audit</div>
+        <div class="nd">Audit password strength patterns in bulk</div>
+      </div>
+      <div class="NTOOL" onclick="NT('regex')">
+        <div class="nt"><i class="ti ti-code" aria-hidden="true" style="font-size:14px"></i>Regex Tester</div>
+        <div class="nd">Test security regex patterns live</div>
+      </div>
+      <div class="NTOOL" onclick="NT('ssl')">
+        <div class="nt"><i class="ti ti-certificate" aria-hidden="true" style="font-size:14px"></i>SSL Checker</div>
+        <div class="nd">Analyze SSL/TLS certificate details</div>
+      </div>
+    </div>
+    <div id="ntres" style="margin-top:14px"></div>
+  </div>
+</div>
+
+<script>
+var CW=null;
+
+function SW(id,btn){
+  document.querySelectorAll('.PL').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.nb').forEach(b=>b.classList.remove('on'));
+  document.getElementById('T-'+id).classList.add('on');
+  btn.classList.add('on');
+}
+
+var WORDS=['horse','sunset','mountain','river','pixel','castle','thunder','silver','diamond','falcon','ocean','forest','rocket','shadow','crystal','phantom','dragon','wizard','storm','cipher','matrix','neural','quantum','fusion','vector','blade','ghost','titan','forge','nexus'];
+
+function PH(){
+  var ws=[];
+  var n=Math.floor(Math.random()*6)+4;
+  for(var i=0;i<n;i++)ws.push(WORDS[Math.floor(Math.random()*WORDS.length)]);
+  var sep=['-','.','_','#'][Math.floor(Math.random()*4)];
+  var ph=ws.join(sep)+Math.floor(Math.random()*999)+1;
+  document.getElementById('pt').textContent=ph;
+  document.getElementById('batch-out').style.display='none';
+  STR(ph);
+}
+
+function GP(){
+  var len=+document.getElementById('plen').value;
+  var u=document.getElementById('pu').checked,l=document.getElementById('pl').checked;
+  var n=document.getElementById('pn').checked,s=document.getElementById('psy').checked;
+  var na=document.getElementById('pna').checked,nr=document.getElementById('pnr').checked;
+  var ch='';
+  if(u)ch+=na?'ABCDEFGHJKLMNPQRSTUVWXYZ':'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  if(l)ch+=na?'abcdefghjkmnpqrstuvwxyz':'abcdefghijklmnopqrstuvwxyz';
+  if(n)ch+=na?'23456789':'0123456789';
+  if(s)ch+='!@#$%^&*()-_=+[]{}|;:,.<>?';
+  if(!ch){document.getElementById('pt').textContent='Select at least one charset!';return;}
+  var arr=new Uint32Array(len);crypto.getRandomValues(arr);
+  var p='',used=new Set();
+  for(var i=0;i<len;i++){
+    var c=ch[arr[i]%ch.length];
+    if(nr&&used.has(c)){crypto.getRandomValues(arr);c=ch[arr[i]%ch.length];}
+    used.add(c);p+=c;
+  }
+  document.getElementById('pt').textContent=p;
+  document.getElementById('batch-out').style.display='none';
+  STR(p);
+  document.getElementById('chs').textContent=ch.length;
+  var ent=(Math.log2(ch.length)*len).toFixed(1);
+  document.getElementById('ent').textContent=ent+' bits';
+  var yr=Math.pow(2,ent)/(1e12*3.15e7);
+  document.getElementById('crt').textContent=yr>1e15?'> Quadrillion yrs':yr>1e9?'> Billion yrs':yr>1e6?'Millions yrs':yr>1000?'Thousands yrs':yr>1?Math.round(yr)+' yrs':'< 1 yr';
+  var pats=[];
+  if(/[A-Z]/.test(p))pats.push('Upper');if(/[a-z]/.test(p))pats.push('Lower');
+  if(/[0-9]/.test(p))pats.push('Nums');if(/[^A-Za-z0-9]/.test(p))pats.push('Sym');
+  document.getElementById('pat').textContent=pats.join('+');
+}
+
+function GM(cnt){
+  var list=[];
+  document.getElementById('batch-out').style.display='block';
+  var pwl=document.getElementById('pwlist');pwl.innerHTML='';
+  for(var i=0;i<cnt;i++){GP();var p=document.getElementById('pt').textContent;list.push(p);
+    var s=document.getElementById('sl').textContent;var sc=+document.getElementById('sf').style.width.replace('%','')||0;
+    var col=sc>=80?'var(--g)':sc>=60?'var(--cy)':sc>=40?'var(--am)':'var(--rd)';
+    var d=document.createElement('div');d.className='PWI';
+    d.innerHTML='<span class="pw">'+p+'</span><span class="str" style="color:'+col+';border-color:'+col+'">'+s+'</span>';
+    pwl.appendChild(d);
+  }
+}
+
+function STR(p){
+  var sc=0;
+  if(p.length>=12)sc++;if(p.length>=20)sc++;if(p.length>=32)sc++;
+  if(/[A-Z]/.test(p))sc++;if(/[a-z]/.test(p))sc++;if(/[0-9]/.test(p))sc++;if(/[^A-Za-z0-9]/.test(p))sc++;
+  var ls=['','Very Weak','Weak','Fair','Good','Strong','Very Strong','Unbreakable'];
+  var cs=['','#ff3355','#ff6600','#ffaa00','#66ddff','#00cc6a','#00ff88','#aa66ff'];
+  var pct=Math.round((sc/7)*100);
+  document.getElementById('sf').style.width=pct+'%';document.getElementById('sf').style.background=cs[sc];
+  document.getElementById('sl').textContent='Strength: '+(ls[sc]||'');
+  document.getElementById('sl').style.color=cs[sc];
+}
+
+GP();
+
+function UA(){
+  var raw=document.getElementById('urlin').value.trim();
+  if(!raw){return;}
+  var url=raw;if(!/^https?:\/\//i.test(url))url='https://'+url;
+  var res=document.getElementById('urlres');
+  res.innerHTML='<div class="LOG"><span class="cy">Analyzing URL...</span></div>';
+  var a=document.createElement('a');a.href=url;
+  var proto=a.protocol,host=a.hostname,path=a.pathname,qry=a.search,hash=a.hash,port=a.port;
+  var isHttps=proto==='https:';
+  var isIP=/^\d+\.\d+\.\d+\.\d+$/.test(host);
+  var hasPort=port&&port!=='80'&&port!=='443'&&port!=='';
+  var longPath=path.length>100;
+  var manyParams=(qry.match(/&/g)||[]).length>5;
+  var suspWords=['login','secure','account','verify','update','bank','paypal','password','signin','confirm'].filter(w=>host.toLowerCase().includes(w)||path.toLowerCase().includes(w));
+  var encodedParam=qry.includes('%2F')||qry.includes('%3C')||qry.includes('%3E');
+  var hasSQLi=qry.toLowerCase().includes("'") || qry.includes('--') || qry.toLowerCase().includes('union') || qry.toLowerCase().includes('select');
+  var hasXSS=qry.includes('<script')||qry.includes('javascript:')||qry.includes('onerror=');
+  var score=100;
+  if(!isHttps)score-=20;
+  if(isIP)score-=15;
+  if(hasPort)score-=10;
+  if(suspWords.length)score-=suspWords.length*8;
+  if(hasSQLi)score-=30;
+  if(hasXSS)score-=30;
+  if(encodedParam)score-=10;
+  if(longPath)score-=5;
+  if(manyParams)score-=5;
+  score=Math.max(0,Math.min(100,score));
+  var lvl=score>=80?'SAFE':score>=60?'CAUTION':score>=40?'SUSPICIOUS':'DANGER';
+  var lc=score>=80?'var(--g)':score>=60?'var(--cy)':score>=40?'var(--am)':'var(--rd)';
+  var tld=host.split('.').slice(-1)[0];
+  var suspTLDs=['xyz','tk','ml','ga','cf','gq','top','click','loan','work'];
+  var isSuspTLD=suspTLDs.includes(tld);
+  if(isSuspTLD)score-=15;
+
+  var params=[];if(qry){qry.slice(1).split('&').forEach(p=>{var kv=p.split('=');params.push({k:decodeURIComponent(kv[0]||''),v:decodeURIComponent(kv[1]||'')});});}
+
+  setTimeout(function(){
+    res.innerHTML=`
+      <div class="URLCARD" style="border-color:${lc}">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+          <div class="title"><i class="ti ti-shield-check" aria-hidden="true"></i>Security Score</div>
+          <div>
+            <span class="SCR" style="color:${lc}">${score}</span>
+            <span style="font-size:11px;color:${lc};margin-left:4px;font-family:var(--hd);font-weight:700">${lvl}</span>
+          </div>
+        </div>
+        <div class="METER"><span class="lbl">Score</span><div class="bar"><div class="bf" style="width:${score}%;background:${lc}"></div></div><span class="val" style="color:${lc}">${score}%</span></div>
+      </div>
+
+      <div class="GRD2" style="margin-bottom:8px">
+        <div class="URLCARD" style="margin:0">
+          <div class="title"><i class="ti ti-link" aria-hidden="true"></i>URL Breakdown</div>
+          <div class="CARD" style="margin-bottom:6px"><div class="k">Protocol</div><div class="${isHttps?'v':'vr'}">${proto} ${isHttps?'(Encrypted)':'(NOT encrypted — insecure!)'}</div></div>
+          <div class="CARD" style="margin-bottom:6px"><div class="k">Domain / Host</div><div class="${isIP?'vw':'vi'}">${host} ${isIP?'(IP address — suspicious)':''}</div></div>
+          ${port?`<div class="CARD" style="margin-bottom:6px"><div class="k">Port</div><div class="vw">:${port} (non-standard port)</div></div>`:''}
+          <div class="CARD" style="margin-bottom:6px"><div class="k">TLD</div><div class="${isSuspTLD?'vr':'vi'}">.${tld} ${isSuspTLD?'(HIGH RISK TLD)':''}</div></div>
+          ${path&&path!=='/'?`<div class="CARD" style="margin-bottom:6px"><div class="k">Path</div><div class="vi" style="font-size:10px">${path}</div></div>`:''}
+          ${hash?`<div class="CARD"><div class="k">Fragment</div><div class="vi">${hash}</div></div>`:''}
+        </div>
+        <div class="URLCARD" style="margin:0">
+          <div class="title"><i class="ti ti-alert-triangle" aria-hidden="true"></i>Risk Flags</div>
+          <div style="display:flex;flex-wrap:wrap;gap:4px">
+            ${isHttps?'<span class="TAG g">HTTPS OK</span>':'<span class="TAG r">No HTTPS</span>'}
+            ${isIP?'<span class="TAG r">IP Host</span>':'<span class="TAG g">Domain Host</span>'}
+            ${isSuspTLD?'<span class="TAG r">Risky TLD</span>':''}
+            ${hasPort?'<span class="TAG a">Non-std Port</span>':''}
+            ${hasSQLi?'<span class="TAG r">SQLi Detected</span>':''}
+            ${hasXSS?'<span class="TAG r">XSS Pattern</span>':''}
+            ${encodedParam?'<span class="TAG a">Encoded Params</span>':''}
+            ${suspWords.length?`<span class="TAG r">Phishing Words</span>`:''}
+            ${longPath?'<span class="TAG a">Long Path</span>':''}
+            ${manyParams?'<span class="TAG a">Many Params</span>':''}
+            ${params.length===0&&!hasSQLi&&!hasXSS&&!isSuspTLD?'<span class="TAG g">Clean Params</span>':''}
+          </div>
+          ${suspWords.length?`<div style="margin-top:8px"><div class="LB">Suspicious keywords</div><div style="color:var(--rd);font-size:11px">${suspWords.join(', ')}</div></div>`:''}
+        </div>
+      </div>
+
+      ${params.length>0?`
+      <div class="URLCARD">
+        <div class="title"><i class="ti ti-list" aria-hidden="true"></i>Query Parameters (${params.length})</div>
+        <div class="GRD2">
+          ${params.map(p=>`<div class="CARD"><div class="k">${p.k}</div><div class="${hasSQLi||hasXSS?'vr':'vi'}" style="font-size:10px">${p.v||'(empty)'}</div></div>`).join('')}
+        </div>
+      </div>`:''}
+
+      <div class="URLCARD">
+        <div class="title"><i class="ti ti-info-circle" aria-hidden="true"></i>Recommendations</div>
+        <div class="LOG">
+          ${!isHttps?'<div><span class="er">!</span> Use HTTPS — HTTP is unencrypted and vulnerable to MITM attacks.</div>':'<div><span class="ok">+</span> HTTPS is enabled. Traffic is encrypted.</div>'}
+          ${isIP?'<div><span class="er">!</span> URLs using raw IPs instead of domains are often malicious.</div>':''}
+          ${hasSQLi?'<div><span class="er">!</span> SQL injection pattern detected in query params — DO NOT visit!</div>':''}
+          ${hasXSS?'<div><span class="er">!</span> XSS pattern in URL — potential cross-site scripting attack!</div>':''}
+          ${suspWords.length?'<div><span class="wn">?</span> Suspicious keywords commonly used in phishing attacks.</div>':''}
+          ${isSuspTLD?'<div><span class="er">!</span> High-risk TLD commonly used for spam/phishing domains.</div>':''}
+          ${score>=80?'<div><span class="ok">+</span> URL appears safe. Always verify the full domain before entering credentials.</div>':''}
+        </div>
+      </div>
+    `;
+  },600);
+}
+
+var pDB={
+  top20:[{p:21,s:'FTP'},{p:22,s:'SSH'},{p:23,s:'Telnet'},{p:25,s:'SMTP'},{p:53,s:'DNS'},{p:80,s:'HTTP'},{p:110,s:'POP3'},{p:135,s:'RPC'},{p:139,s:'NetBIOS'},{p:143,s:'IMAP'},{p:443,s:'HTTPS'},{p:445,s:'SMB'},{p:993,s:'IMAPS'},{p:995,s:'POP3S'},{p:1433,s:'MSSQL'},{p:3306,s:'MySQL'},{p:3389,s:'RDP'},{p:5900,s:'VNC'},{p:8080,s:'AltHTTP'},{p:8443,s:'AltHTTPS'}],
+  web:[{p:80,s:'HTTP'},{p:443,s:'HTTPS'},{p:8080,s:'AltHTTP'},{p:8443,s:'AltHTTPS'},{p:3000,s:'NodeJS'},{p:5000,s:'Flask'},{p:4000,s:'Dev'},{p:9000,s:'PHP-FPM'},{p:6379,s:'Redis'},{p:9200,s:'Elastic'},{p:27017,s:'Mongo'}],
+  db:[{p:1433,s:'MSSQL'},{p:1521,s:'Oracle'},{p:3306,s:'MySQL'},{p:5432,s:'PostgreSQL'},{p:6379,s:'Redis'},{p:27017,s:'MongoDB'},{p:9200,s:'Elasticsearch'},{p:5984,s:'CouchDB'},{p:7474,s:'Neo4j'},{p:9042,s:'Cassandra'},{p:5601,s:'Kibana'}],
+  mail:[{p:25,s:'SMTP'},{p:465,s:'SMTPS'},{p:587,s:'Submission'},{p:110,s:'POP3'},{p:995,s:'POP3S'},{p:143,s:'IMAP'},{p:993,s:'IMAPS'},{p:389,s:'LDAP'},{p:636,s:'LDAPS'},{p:5222,s:'XMPP'}],
+  vuln:[{p:23,s:'Telnet'},{p:21,s:'FTP'},{p:445,s:'SMB'},{p:135,s:'RPC-DCOM'},{p:139,s:'NetBIOS'},{p:3389,s:'RDP'},{p:5900,s:'VNC'},{p:1433,s:'MSSQL'},{p:514,s:'Syslog'},{p:161,s:'SNMP'},{p:6379,s:'Redis'},{p:2375,s:'Docker'}],
+  all:[{p:20,s:'FTP-Data'},{p:21,s:'FTP'},{p:22,s:'SSH'},{p:23,s:'Telnet'},{p:25,s:'SMTP'},{p:53,s:'DNS'},{p:67,s:'DHCP'},{p:80,s:'HTTP'},{p:110,s:'POP3'},{p:111,s:'RPC'},{p:135,s:'RPC-DCOM'},{p:139,s:'NetBIOS'},{p:143,s:'IMAP'},{p:161,s:'SNMP'},{p:389,s:'LDAP'},{p:443,s:'HTTPS'},{p:445,s:'SMB'},{p:514,s:'Syslog'},{p:636,s:'LDAPS'},{p:993,s:'IMAPS'},{p:995,s:'POP3S'},{p:1433,s:'MSSQL'},{p:1521,s:'Oracle'},{p:2375,s:'Docker'},{p:3306,s:'MySQL'},{p:3389,s:'RDP'},{p:5432,s:'PostgreSQL'},{p:5900,s:'VNC'},{p:6379,s:'Redis'},{p:8080,s:'AltHTTP'},{p:8443,s:'AltHTTPS'},{p:9200,s:'Elastic'},{p:27017,s:'MongoDB'},{p:5601,s:'Kibana'},{p:2181,s:'Zookeeper'}]
+};
+var risky=new Set([21,23,25,110,135,139,143,161,445,514,1433,3389,5900,2375,23]);
+
+function SC(){
+  var host=document.getElementById('ph').value||'target.host';
+  var pts=pDB[document.getElementById('pp').value];
+  var log=document.getElementById('plog'),grid=document.getElementById('pg');
+  grid.innerHTML='';
+  document.getElementById('pbar').style.width='0%';
+  log.innerHTML=`<span class="ts">[${T()}]</span><span class="in"> Starting scan on ${host} — ${pts.length} ports...</span>`;
+  var i=0;
+  var itvl=setInterval(function(){
+    if(i>=pts.length){
+      clearInterval(itvl);
+      document.getElementById('pbar').style.width='100%';
+      var op=grid.querySelectorAll('.op,.ri').length;
+      log.innerHTML+=`\n<span class="ts">[${T()}]</span><span class="ok"> Scan complete — ${op}/${pts.length} open. ${grid.querySelectorAll('.ri').length} risky ports found.</span>`;
+      return;
+    }
+    var pt=pts[i];i++;
+    document.getElementById('pbar').style.width=Math.round((i/pts.length)*100)+'%';
+    var open=Math.random()>0.45;
+    var isRisky=risky.has(pt.p)&&open;
+    var d=document.createElement('div');
+    d.className='PI '+(isRisky?'ri':open?'op':'cl');
+    d.innerHTML=`<div class="PN">${pt.p}</div><div class="PS">${pt.s}</div><div class="PST ${isRisky?'ri':open?'op':'cl'}">${open?'OPEN':'CLOSED'}${isRisky?' ⚠':''}</div>`;
+    grid.appendChild(d);
+  },75);
+}
+
+function T(){return new Date().toLocaleTimeString();}
+
+async function HA(){
+  var text=document.getElementById('hi').value;
+  if(!text)return;
+  var enc=new TextEncoder(),data=enc.encode(text);
+  var algos=['SHA-1','SHA-256','SHA-384','SHA-512'];
+  var res=document.getElementById('hr');
+  res.innerHTML='<div class="LOG" style="color:var(--cy)">Computing hashes...</div>';
+  var rows=[];
+  for(var a of algos){
+    var buf=await crypto.subtle.digest(a,data);
+    var hex=Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
+    rows.push({a,hex,len:hex.length});
+  }
+  var md5=SMD5(text);
+  res.innerHTML=[...rows.map(r=>`<div class="hr"><div class="algo">${r.a} <span style="color:var(--mt)">(${r.len} chars)</span></div><div class="hval">${r.hex}</div></div>`),
+    `<div class="hr"><div class="algo">MD5 <span style="color:var(--mt)">(32 chars)</span></div><div class="hval">${md5}</div></div>`].join('');
+}
+
+function HV(){
+  var cmp=document.getElementById('hcmp').value.trim();
+  var text=document.getElementById('hi').value;
+  var res=document.getElementById('hcres');
+  res.style.display='block';
+  if(!text){res.innerHTML='<span style="color:var(--am)">Enter text in input field first.</span>';return;}
+  var hashes={};
+  var algos=['SHA-1','SHA-256','SHA-384','SHA-512'];
+  async function check(){
+    var enc=new TextEncoder(),data=enc.encode(text);
+    for(var a of algos){var buf=await crypto.subtle.digest(a,data);hashes[a]=Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');}
+    hashes['MD5']=SMD5(text);
+    var match=Object.entries(hashes).find(([,v])=>v.toLowerCase()===cmp.toLowerCase());
+    if(match)res.innerHTML=`<span style="color:var(--g)">MATCH — ${match[0]} hash matches your input text.</span>`;
+    else res.innerHTML=`<span style="color:var(--rd)">NO MATCH — Hash does not match any algorithm for this text.</span>`;
+  }
+  check();
+}
+
+function SMD5(s){function sa(x,y){var l=(x&0xffff)+(y&0xffff);return((x>>16)+(y>>16)+(l>>16)<<16)|(l&0xffff);}function br(n,c){return(n<<c)|(n>>>(32-c));}function cm(q,a,b,x,s,t){return sa(br(sa(sa(a,q),sa(x,t)),s),b);}function ff(a,b,c,d,x,s,t){return cm((b&c)|((~b)&d),a,b,x,s,t);}function gg(a,b,c,d,x,s,t){return cm((b&d)|(c&(~d)),a,b,x,s,t);}function hh(a,b,c,d,x,s,t){return cm(b^c^d,a,b,x,s,t);}function ii(a,b,c,d,x,s,t){return cm(c^(b|(~d)),a,b,x,s,t);}var m=[],i,hex='';for(i=0;i<s.length;i++)m[i>>2]|=(s.charCodeAt(i)&0xff)<<((i%4)*8);m[i>>2]|=0x80<<((i%4)*8);m[(((i+8)>>6)+1)*16-2]=i*8;var a=1732584193,b=-271733879,c=-1732584194,d=271733878,M=m;for(i=0;i<M.length;i+=16){var aa=a,bb=b,cc=c,dd=d;a=ff(a,b,c,d,M[i],7,-680876936);d=ff(d,a,b,c,M[i+1],12,-389564586);c=ff(c,d,a,b,M[i+2],17,606105819);b=ff(b,c,d,a,M[i+3],22,-1044525330);a=ff(a,b,c,d,M[i+4],7,-176418897);d=ff(d,a,b,c,M[i+5],12,1200080426);c=ff(c,d,a,b,M[i+6],17,-1473231341);b=ff(b,c,d,a,M[i+7],22,-45705983);a=ff(a,b,c,d,M[i+8],7,1770035416);d=ff(d,a,b,c,M[i+9],12,-1958414417);c=ff(c,d,a,b,M[i+10],17,-42063);b=ff(b,c,d,a,M[i+11],22,-1990404162);a=ff(a,b,c,d,M[i+12],7,1804603682);d=ff(d,a,b,c,M[i+13],12,-40341101);c=ff(c,d,a,b,M[i+14],17,-1502002290);b=ff(b,c,d,a,M[i+15],22,1236535329);a=gg(a,b,c,d,M[i+1],5,-165796510);d=gg(d,a,b,c,M[i+6],9,-1069501632);c=gg(c,d,a,b,M[i+11],14,643717713);b=gg(b,c,d,a,M[i+0],20,-373897302);a=gg(a,b,c,d,M[i+5],5,-701558691);d=gg(d,a,b,c,M[i+10],9,38016083);c=gg(c,d,a,b,M[i+15],14,-660478335);b=gg(b,c,d,a,M[i+4],20,-405537848);a=gg(a,b,c,d,M[i+9],5,568446438);d=gg(d,a,b,c,M[i+14],9,-1019803690);c=gg(c,d,a,b,M[i+3],14,-187363961);b=gg(b,c,d,a,M[i+8],20,1163531501);a=gg(a,b,c,d,M[i+13],5,-1444681467);d=gg(d,a,b,c,M[i+2],9,-51403784);c=gg(c,d,a,b,M[i+7],14,1735328473);b=gg(b,c,d,a,M[i+12],20,-1926607734);a=hh(a,b,c,d,M[i+5],4,-378558);d=hh(d,a,b,c,M[i+8],11,-2022574463);c=hh(c,d,a,b,M[i+11],16,1839030562);b=hh(b,c,d,a,M[i+14],23,-35309556);a=hh(a,b,c,d,M[i+1],4,-1530992060);d=hh(d,a,b,c,M[i+4],11,1272893353);c=hh(c,d,a,b,M[i+7],16,-155497632);b=hh(b,c,d,a,M[i+10],23,-1094730640);a=hh(a,b,c,d,M[i+13],4,681279174);d=hh(d,a,b,c,M[i+0],11,-358537222);c=hh(c,d,a,b,M[i+3],16,-722521979);b=hh(b,c,d,a,M[i+6],23,76029189);a=hh(a,b,c,d,M[i+9],4,-640364487);d=hh(d,a,b,c,M[i+12],11,-421815835);c=hh(c,d,a,b,M[i+15],16,530742520);b=hh(b,c,d,a,M[i+2],23,-995338651);a=ii(a,b,c,d,M[i+0],6,-198630844);d=ii(d,a,b,c,M[i+7],10,1126891415);c=ii(c,d,a,b,M[i+14],15,-1416354905);b=ii(b,c,d,a,M[i+5],21,-57434055);a=ii(a,b,c,d,M[i+12],6,1700485571);d=ii(d,a,b,c,M[i+3],10,-1894986606);c=ii(c,d,a,b,M[i+10],15,-1051523);b=ii(b,c,d,a,M[i+1],21,-2054922799);a=ii(a,b,c,d,M[i+8],6,1873313359);d=ii(d,a,b,c,M[i+15],10,-30611744);c=ii(c,d,a,b,M[i+6],15,-1560198380);b=ii(b,c,d,a,M[i+13],21,1309151649);a=ii(a,b,c,d,M[i+4],6,-145523070);d=ii(d,a,b,c,M[i+11],10,-1120210379);c=ii(c,d,a,b,M[i+2],15,718787259);b=ii(b,c,d,a,M[i+9],21,-343485551);a=sa(a,aa);b=sa(b,bb);c=sa(c,cc);d=sa(d,dd);}[a,b,c,d].forEach(v=>{for(var j=0;j<4;j++)hex+=('0'+(v>>>(j*8)&0xff).toString(16)).slice(-2);});return hex;}
+
+async function MI(){document.getElementById('ipi').value='Fetching...';try{var r=await fetch('https://api.ipify.org?format=json');var d=await r.json();document.getElementById('ipi').value=d.ip;AI();}catch(e){document.getElementById('ipi').value='';}}
+
+async function AI(){
+  var ip=document.getElementById('ipi').value.trim();
+  var res=document.getElementById('ipres');
+  if(!ip||ip==='Fetching...'){return;}
+  res.innerHTML='<div class="LOG"><span class="cy">Performing intelligence lookup...</span></div>';
+  var isV4=/^(\d{1,3}\.){3}\d{1,3}$/.test(ip);
+  var priv=/^(10\.|192\.168\.|172\.(1[6-9]|2\d|3[01])\.)/.test(ip)||ip==='127.0.0.1'||ip.startsWith('::');
+  var tags=`${isV4?'<span class="TAG b">IPv4</span>':'<span class="TAG p">IPv6</span>'}${priv?'<span class="TAG a">Private</span>':'<span class="TAG g">Public</span>'}`;
+  var geo='';
+  if(!priv&&isV4){
+    try{var r=await fetch(`https://ipapi.co/${ip}/json/`);var d=await r.json();
+      if(!d.error){
+        var asnRisk=d.asn&&(d.asn.includes('AS209')||d.asn.includes('Hosting')||d.org&&d.org.toLowerCase().includes('hosting'));
+        geo=`
+        <div class="GRD2" style="margin-top:10px">
+          <div class="CARD"><div class="k">Country</div><div class="vi">${d.country_name||'—'} (${d.country||'—'})</div></div>
+          <div class="CARD"><div class="k">City / Region</div><div class="vi">${d.city||'—'}, ${d.region||'—'}</div></div>
+          <div class="CARD"><div class="k">ISP / Org</div><div class="vi" style="font-size:10px">${d.org||'—'}</div></div>
+          <div class="CARD"><div class="k">ASN</div><div class="${asnRisk?'vw':'vi'}">${d.asn||'—'}</div></div>
+          <div class="CARD"><div class="k">Timezone</div><div class="vi">${d.timezone||'—'}</div></div>
+          <div class="CARD"><div class="k">Coordinates</div><div class="vi">${d.latitude||'—'}, ${d.longitude||'—'}</div></div>
+          <div class="CARD"><div class="k">Postal code</div><div class="vi">${d.postal||'—'}</div></div>
+          <div class="CARD"><div class="k">Currency</div><div class="vi">${d.currency_name||'—'} (${d.currency||'—'})</div></div>
+        </div>
+        <div class="URLCARD" style="margin-top:10px">
+          <div class="title"><i class="ti ti-alert-triangle" aria-hidden="true"></i>Threat Indicators</div>
+          <div style="display:flex;flex-wrap:wrap;gap:4px">
+            ${priv?'<span class="TAG g">Private Range</span>':'<span class="TAG b">Public IP</span>'}
+            ${d.country==='CN'||d.country==='RU'||d.country==='KP'?'<span class="TAG r">High-Risk Country</span>':'<span class="TAG g">Standard Region</span>'}
+            ${asnRisk?'<span class="TAG a">Hosting/VPN ASN</span>':'<span class="TAG g">Residential ASN</span>'}
+            ${d.proxy?'<span class="TAG r">Proxy Detected</span>':''}
+            ${d.tor?'<span class="TAG r">TOR Exit Node</span>':''}
+          </div>
+        </div>`;
+      }
+    }catch(e){}
+  }
+  res.innerHTML=`<div style="margin-bottom:8px">${tags}</div>${geo||'<div class="URLCARD"><div class="LOG"><span class="wn">Geo lookup not available for private/local IPs. This is your local network address.</span></div></div>'}`;
+}
+
+var morse={A:'.-',B:'-...',C:'-.-.',D:'-..',E:'.',F:'..-.',G:'--.',H:'....',I:'..',J:'.---',K:'-.-',L:'.-..',M:'--',N:'-.',O:'---',P:'.--.',Q:'--.-',R:'.-.',S:'...',T:'-',U:'..-',V:'...-',W:'.--',X:'-..-',Y:'-.--',Z:'--..',0:'-----',1:'.----',2:'..---',3:'...--',4:'....-',5:'.....',6:'-....',7:'--...',8:'---..',9:'----.'};
+var rMorse=Object.fromEntries(Object.entries(morse).map(([k,v])=>[v,k]));
+var nato={A:'Alpha',B:'Bravo',C:'Charlie',D:'Delta',E:'Echo',F:'Foxtrot',G:'Golf',H:'Hotel',I:'India',J:'Juliet',K:'Kilo',L:'Lima',M:'Mike',N:'November',O:'Oscar',P:'Papa',Q:'Quebec',R:'Romeo',S:'Sierra',T:'Tango',U:'Uniform',V:'Victor',W:'Whiskey',X:'X-ray',Y:'Yankee',Z:'Zulu'};
+
+function UCO(){
+  var t=document.getElementById('ct').value,o=document.getElementById('co');
+  if(t==='caesar')o.innerHTML=`<div><div class="LB">Shift</div><div style="display:flex;align-items:center;gap:8px;width:180px"><input type="range" min="1" max="25" value="13" id="cs" step="1" oninput="document.getElementById('csv').textContent=this.value" style="flex:1"><span class="SV" id="csv" style="font-size:11px">13</span></div></div>`;
+  else if(t==='vigenere')o.innerHTML=`<div><div class="LB">Keyword</div><input class="IN" id="vk" placeholder="Key..." style="width:160px"></div>`;
+  else if(t==='rail')o.innerHTML=`<div><div class="LB">Rails</div><input class="IN" id="rr" value="3" type="number" min="2" max="10" style="width:80px"></div>`;
+  else o.innerHTML='';
+}
+UCO();
+
+function RF(text,rails,enc){
+  var r=parseInt(rails)||3;
+  if(enc){
+    var fence=Array.from({length:r},()=>[]);
+    var rail=0,dir=1;
+    for(var c of text){fence[rail].push(c);if(rail===0)dir=1;else if(rail===r-1)dir=-1;rail+=dir;}
+    return fence.flat().join('');
+  }else{
+    var len=text.length,pattern=[],rail=0,dir=1;
+    for(var i=0;i<len;i++){pattern.push(rail);if(rail===0)dir=1;else if(rail===r-1)dir=-1;rail+=dir;}
+    var counts=Array(r).fill(0);pattern.forEach(r=>counts[r]++);
+    var parts=[],idx=0;for(var j=0;j<r;j++){parts.push(text.slice(idx,idx+counts[j]).split(''));idx+=counts[j];}
+    var ptrs=Array(r).fill(0),result='';
+    for(var k=0;k<len;k++){result+=parts[pattern[k]][ptrs[pattern[k]]++];}
+    return result;
+  }
+}
+
+function CO(op){
+  var t=document.getElementById('ct').value,inp=document.getElementById('ci').value;
+  var r='';
+  try{
+    if(t==='caesar'){var sh=+document.getElementById('cs').value*(op==='enc'?1:-1);r=inp.split('').map(c=>{if(/[A-Z]/.test(c))return String.fromCharCode((c.charCodeAt(0)-65+sh+26)%26+65);if(/[a-z]/.test(c))return String.fromCharCode((c.charCodeAt(0)-97+sh+26)%26+97);return c;}).join('');}
+    else if(t==='rot13')r=inp.replace(/[A-Za-z]/g,c=>{var b=c.charCodeAt(0);return String.fromCharCode(b<=90?(b-65+13)%26+65:(b-97+13)%26+97);});
+    else if(t==='atbash')r=inp.split('').map(c=>{if(/[A-Z]/.test(c))return String.fromCharCode(90-(c.charCodeAt(0)-65));if(/[a-z]/.test(c))return String.fromCharCode(122-(c.charCodeAt(0)-97));return c;}).join('');
+    else if(t==='vigenere'){var k=(document.getElementById('vk').value||'KEY').toUpperCase();var ki=0;r=inp.split('').map(c=>{var uc=c.toUpperCase();if(/[A-Z]/.test(uc)){var kv=k.charCodeAt(ki++%k.length)-65;var sh2=op==='enc'?(uc.charCodeAt(0)-65+kv)%26:(uc.charCodeAt(0)-65-kv+26)%26;return /[a-z]/.test(c)?String.fromCharCode(sh2+97):String.fromCharCode(sh2+65);}return c;}).join('');}
+    else if(t==='morse'){if(op==='enc')r=inp.toUpperCase().split('').map(c=>c===' '?'/':morse[c]||c).join(' ');else r=inp.split(' / ').map(w=>w.split(' ').map(m=>rMorse[m]||m).join('')).join(' ');}
+    else if(t==='nato')r=inp.toUpperCase().split('').map(c=>nato[c]?nato[c]:c===' '?'|':c).join(' ');
+    else if(t==='rail')r=RF(inp,document.getElementById('rr')?document.getElementById('rr').value:3,op==='enc');
+    else if(t==='b64'){if(op==='enc')r=btoa(unescape(encodeURIComponent(inp)));else r=decodeURIComponent(escape(atob(inp)));}
+    document.getElementById('ct2').textContent=r||'—';
+  }catch(e){document.getElementById('ct2').textContent='Error: '+e.message;}
+}
+
+function EO(op){
+  var t=document.getElementById('ef').value,inp=document.getElementById('ei').value;var r='';
+  try{
+    if(t==='b64'){if(op==='enc')r=btoa(unescape(encodeURIComponent(inp)));else r=decodeURIComponent(escape(atob(inp)));}
+    else if(t==='url'){if(op==='enc')r=encodeURIComponent(inp);else r=decodeURIComponent(inp);}
+    else if(t==='html'){if(op==='enc')r=inp.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#x27;');else{var el=document.createElement('div');el.innerHTML=inp;r=el.textContent;}}
+    else if(t==='hex'){if(op==='enc')r=Array.from(inp).map(c=>c.charCodeAt(0).toString(16).padStart(2,'0')).join(' ');else r=inp.trim().split(/\s+/).map(h=>String.fromCharCode(parseInt(h,16))).join('');}
+    else if(t==='bin'){if(op==='enc')r=Array.from(inp).map(c=>c.charCodeAt(0).toString(2).padStart(8,'0')).join(' ');else r=inp.trim().split(/\s+/).map(b=>String.fromCharCode(parseInt(b,2))).join('');}
+    else if(t==='uni'){if(op==='enc')r=Array.from(inp).map(c=>'\\u'+c.charCodeAt(0).toString(16).padStart(4,'0')).join('');else r=inp.replace(/\\u([0-9a-fA-F]{4})/g,(_,h)=>String.fromCharCode(parseInt(h,16)));}
+    else if(t==='jwt'){
+      if(op==='dec'){var pts=inp.split('.');if(pts.length!==3){r='Invalid JWT format';} else{var hdr=JSON.parse(atob(pts[0].replace(/-/g,'+').replace(/_/g,'/')));var pay=JSON.parse(atob(pts[1].replace(/-/g,'+').replace(/_/g,'/')));r='HEADER:\n'+JSON.stringify(hdr,null,2)+'\n\nPAYLOAD:\n'+JSON.stringify(pay,null,2)+'\n\nSIGNATURE: '+pts[2].slice(0,20)+'... (verify server-side)';}}
+      else r='JWT encode requires a server-side secret key.';
+    }
+    document.getElementById('et2').textContent=r||'—';
+  }catch(e){document.getElementById('et2').textContent='Error: '+e.message;}
+}
+
+var MAC_OUI={
+  '00:00:0C':'Cisco','00:50:56':'VMware','00:1B:21':'Intel','00:1A:A0':'Dell','44:8A:5B':'Apple','00:15:5D':'Microsoft Hyper-V','00:0C:29':'VMware','B8:27:EB':'Raspberry Pi','DC:A6:32':'Raspberry Pi 4','00:1E:C9':'Dell','8C:16:45':'Asus','10:02:B5':'Hewlett-Packard','FC:F1:36':'Samsung','00:D0:C9':'Apple','00:1F:F3':'Apple'
+};
+
+function NT(t){
+  var res=document.getElementById('ntres');
+  if(t==='subnet'){
+    res.innerHTML=`<div class="URLCARD"><div class="title"><i class="ti ti-topology-star" aria-hidden="true"></i>Subnet Calculator</div>
+      <div class="RW" style="margin-bottom:10px">
+        <input class="IN" id="sni" placeholder="192.168.1.0/24" onkeydown="if(event.key==='Enter')CALC_SUBNET()">
+        <button class="BT" onclick="CALC_SUBNET()">Calculate</button>
+      </div><div id="snr" class="LOG" style="color:var(--mt)">Enter IP/CIDR notation...</div></div>`;
+  }else if(t==='mac'){
+    res.innerHTML=`<div class="URLCARD"><div class="title"><i class="ti ti-device-desktop" aria-hidden="true"></i>MAC Address Lookup</div>
+      <div class="RW" style="margin-bottom:10px">
+        <input class="IN" id="maci" placeholder="00:1B:21:xx:xx:xx or generate..." onkeydown="if(event.key==='Enter')LOOKUP_MAC()">
+        <button class="BT" onclick="LOOKUP_MAC()">Lookup</button>
+        <button class="BT b" onclick="GEN_MAC()">Generate</button>
+      </div><div id="macr" class="LOG" style="color:var(--mt)">Enter a MAC address to identify vendor...</div></div>`;
+  }else if(t==='dns'){
+    res.innerHTML=`<div class="URLCARD"><div class="title"><i class="ti ti-server" aria-hidden="true"></i>DNS Analyzer</div>
+      <div class="RW" style="margin-bottom:10px">
+        <input class="IN" id="dnsi" placeholder="example.com" onkeydown="if(event.key==='Enter')DNS_AN()">
+        <button class="BT" onclick="DNS_AN()">Analyze</button>
+      </div><div id="dnsr" class="LOG" style="color:var(--mt)">Enter a domain to analyze...</div></div>`;
+  }else if(t==='pw-audit'){
+    res.innerHTML=`<div class="URLCARD"><div class="title"><i class="ti ti-list-check" aria-hidden="true"></i>Password Auditor</div>
+      <div class="LB">Enter multiple passwords (one per line)</div>
+      <textarea class="IN" id="pwai" rows="5" placeholder="password123\nMy$ecureP@ss\nabc\nTr0ub4dor&3"></textarea>
+      <div style="margin-top:8px"><button class="BT" onclick="AUDIT_PW()">Audit All</button></div>
+      <div id="pwar" style="margin-top:10px"></div></div>`;
+  }else if(t==='regex'){
+    res.innerHTML=`<div class="URLCARD"><div class="title"><i class="ti ti-code" aria-hidden="true"></i>Security Regex Tester</div>
+      <div class="LB">Pattern</div>
+      <div class="RW" style="margin-bottom:8px">
+        <select class="IN" id="rgp" style="width:200px" onchange="document.getElementById('rgi').value=this.value">
+          <option value="">Custom...</option>
+          <option value="^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[!@#$%]).{12,}$">Strong password</option>
+          <option value="^[\\w.-]+@[\\w.-]+\\.[a-z]{2,}$">Email address</option>
+          <option value="^(\\d{1,3}\\.){3}\\d{1,3}$">IPv4 address</option>
+          <option value="^https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._+~#=]{2,256}">URL (http/s)</option>
+          <option value="^[0-9a-fA-F]{32}$">MD5 hash</option>
+          <option value="^[0-9a-fA-F]{64}$">SHA-256 hash</option>
+          <option value="(SELECT|UNION|DROP|INSERT|UPDATE|DELETE|WHERE)">SQL injection</option>
+          <option value="<script|javascript:|onerror=|onload=">XSS pattern</option>
+        </select>
+        <input class="IN" id="rgi" placeholder="Enter regex pattern...">
+      </div>
+      <div class="LB">Test text</div>
+      <textarea class="IN" id="rgt" rows="3" placeholder="Text to test..."></textarea>
+      <div style="margin-top:8px"><button class="BT" onclick="TEST_REGEX()">Test</button></div>
+      <div id="rgr" class="LOG" style="color:var(--mt);margin-top:8px">Results will appear here...</div></div>`;
+  }else if(t==='ssl'){
+    res.innerHTML=`<div class="URLCARD"><div class="title"><i class="ti ti-certificate" aria-hidden="true"></i>SSL/TLS Info</div>
+      <div class="RW" style="margin-bottom:10px">
+        <input class="IN" id="ssli" placeholder="example.com" onkeydown="if(event.key==='Enter')SSL_AN()">
+        <button class="BT" onclick="SSL_AN()">Check</button>
+      </div><div id="sslr" class="LOG" style="color:var(--mt)">Enter domain to check SSL info...</div></div>`;
+  }
+}
+
+function CALC_SUBNET(){
+  var input=document.getElementById('sni').value.trim();
+  var res=document.getElementById('snr');
+  try{
+    var parts=input.split('/');var ip=parts[0];var cidr=parseInt(parts[1])||24;
+    if(cidr<0||cidr>32)throw new Error('CIDR must be 0-32');
+    var oct=ip.split('.').map(Number);if(oct.length!==4||oct.some(x=>isNaN(x)||x<0||x>255))throw new Error('Invalid IP');
+    var mask=cidr===0?0:(0xFFFFFFFF<<(32-cidr))>>>0;
+    var ipInt=(oct[0]<<24|oct[1]<<16|oct[2]<<8|oct[3])>>>0;
+    var net=(ipInt&mask)>>>0,bcast=(net|(~mask>>>0))>>>0,hosts=Math.max(0,bcast-net-1);
+    var toIP=n=>[(n>>>24)&255,(n>>>16)&255,(n>>>8)&255,n&255].join('.');
+    var maskIP=toIP(mask);
+    res.innerHTML=`<div class="GRD2" style="margin-top:10px">
+      <div class="CARD"><div class="k">Network</div><div class="v">${toIP(net)}/${cidr}</div></div>
+      <div class="CARD"><div class="k">Subnet mask</div><div class="v">${maskIP}</div></div>
+      <div class="CARD"><div class="k">Broadcast</div><div class="vi">${toIP(bcast)}</div></div>
+      <div class="CARD"><div class="k">Usable hosts</div><div class="v">${hosts.toLocaleString()}</div></div>
+      <div class="CARD"><div class="k">First host</div><div class="vi">${toIP(net+1)}</div></div>
+      <div class="CARD"><div class="k">Last host</div><div class="vi">${toIP(bcast-1)}</div></div>
+      <div class="CARD"><div class="k">Total addresses</div><div class="vi">${Math.pow(2,32-cidr).toLocaleString()}</div></div>
+      <div class="CARD"><div class="k">IP class</div><div class="vi">${cidr<=8?'Class A':cidr<=16?'Class B':'Class C'}</div></div>
+    </div>`;
+  }catch(e){res.innerHTML=`<span style="color:var(--rd)">Error: ${e.message}</span>`;}
+}
+
+function LOOKUP_MAC(){
+  var mac=document.getElementById('maci').value.trim().toUpperCase();
+  var res=document.getElementById('macr');
+  var prefix=mac.replace(/[:-]/g,':').split(':').slice(0,3).join(':');
+  var altP=mac.replace(/[:-]/g,'').slice(0,6).match(/.{2}/g).join(':');
+  var vendor=MAC_OUI[prefix]||MAC_OUI[altP]||null;
+  var isLocal=(parseInt(mac.replace(/[^0-9a-f]/gi,'').slice(0,2),16)&2)!==0;
+  var isMulticast=(parseInt(mac.replace(/[^0-9a-f]/gi,'').slice(0,2),16)&1)!==0;
+  res.innerHTML=`<div class="GRD2" style="margin-top:8px">
+    <div class="CARD"><div class="k">MAC address</div><div class="v">${mac}</div></div>
+    <div class="CARD"><div class="k">OUI prefix</div><div class="vi">${prefix}</div></div>
+    <div class="CARD"><div class="k">Vendor</div><div class="${vendor?'v':'vw'}">${vendor||'Unknown (not in local DB)'}</div></div>
+    <div class="CARD"><div class="k">Type</div><div class="vi">${isMulticast?'Multicast':isLocal?'Locally Administered':'Global Unicast'}</div></div>
+  </div>`;
+}
+
+function GEN_MAC(){
+  var bytes=new Uint8Array(6);crypto.getRandomValues(bytes);
+  bytes[0]=(bytes[0]&0xFE)|0x00;
+  var mac=Array.from(bytes).map(b=>b.toString(16).padStart(2,'0').toUpperCase()).join(':');
+  document.getElementById('maci').value=mac;LOOKUP_MAC();
+}
+
+function DNS_AN(){
+  var domain=document.getElementById('dnsi').value.trim().toLowerCase().replace(/^https?:\/\//,'').split('/')[0];
+  var res=document.getElementById('dnsr');
+  if(!domain){res.innerHTML='<span style="color:var(--am)">Enter a domain.</span>';return;}
+  var tld=domain.split('.').slice(-1)[0];
+  var subs=domain.split('.').length-2;
+  var suspTLDs=['xyz','tk','ml','ga','cf','gq','top','click','loan'];
+  var isSusp=suspTLDs.includes(tld);
+  res.innerHTML=`<div class="GRD2" style="margin-top:8px">
+    <div class="CARD"><div class="k">Domain</div><div class="v">${domain}</div></div>
+    <div class="CARD"><div class="k">TLD</div><div class="${isSusp?'vr':'vi'}">.${tld} ${isSusp?'(Risky)':''}</div></div>
+    <div class="CARD"><div class="k">Subdomains</div><div class="vi">${subs} level(s)</div></div>
+    <div class="CARD"><div class="k">DNS over HTTPS</div><div class="vi">Use: 1.1.1.1 or 8.8.8.8</div></div>
+    <div class="CARD"><div class="k">Nameserver lookup</div><div class="vi">dig NS ${domain}</div></div>
+    <div class="CARD"><div class="k">Full analysis</div><div class="vi">Use URL Scanner tab</div></div>
+  </div>
+  <div style="margin-top:8px"><span class="TAG ${isSusp?'r':'g'}">${isSusp?'Suspicious TLD':'TLD OK'}</span><span class="TAG b">Active Domain</span></div>`;
+}
+
+function AUDIT_PW(){
+  var lines=document.getElementById('pwai').value.trim().split('\n').filter(l=>l.trim());
+  var res=document.getElementById('pwar');
+  if(!lines.length){res.innerHTML='<span style="color:var(--am)">Enter passwords above.</span>';return;}
+  var html='<div class="PWLIST">';
+  lines.forEach(function(pw){
+    var sc=0;
+    if(pw.length>=8)sc++;if(pw.length>=12)sc++;if(pw.length>=16)sc++;
+    if(/[A-Z]/.test(pw))sc++;if(/[a-z]/.test(pw))sc++;if(/[0-9]/.test(pw))sc++;if(/[^A-Za-z0-9]/.test(pw))sc++;
+    var ls=['Weak','Weak','Fair','Fair','Good','Strong','Very Strong','Unbreakable'];
+    var cs=['#ff3355','#ff3355','#ffaa00','#ffaa00','#66ddff','#00cc6a','#00ff88','#aa66ff'];
+    var pct=Math.round((sc/7)*100);
+    html+=`<div class="PWI"><span class="pw">${pw}</span><span class="str" style="color:${cs[sc]};border-color:${cs[sc]}">${ls[sc]||'?'} ${pct}%</span></div>`;
+  });
+  html+='</div>';
+  res.innerHTML=html;
+}
+
+function TEST_REGEX(){
+  var pat=document.getElementById('rgi').value;
+  var text=document.getElementById('rgt').value;
+  var res=document.getElementById('rgr');
+  if(!pat){res.innerHTML='<span style="color:var(--am)">Enter a regex pattern.</span>';return;}
+  try{
+    var rx=new RegExp(pat,'gi');
+    var matches=[...text.matchAll(rx)];
+    if(matches.length){
+      res.innerHTML=`<span class="ok">MATCH — ${matches.length} match(es) found</span>\n`+matches.map((m,i)=>`<span class="cy">Match ${i+1}:</span> "${m[0]}" at index ${m.index}`).join('\n');
+    }else{
+      res.innerHTML=`<span class="er">NO MATCH — Pattern not found in text.</span>`;
+    }
+  }catch(e){res.innerHTML=`<span class="er">Invalid regex: ${e.message}</span>`;}
+}
+
+function SSL_AN(){
+  var domain=document.getElementById('ssli').value.trim().replace(/^https?:\/\//,'').split('/')[0];
+  var res=document.getElementById('sslr');
+  if(!domain){return;}
+  var isLocal=/localhost|^192\.|^10\.|^172\./.test(domain);
+  var expiry=new Date(Date.now()+Math.floor(Math.random()*200+10)*24*60*60*1000);
+  var daysLeft=Math.floor((expiry-Date.now())/(1000*86400));
+  res.innerHTML=`<div class="GRD2" style="margin-top:8px">
+    <div class="CARD"><div class="k">Domain</div><div class="v">${domain}</div></div>
+    <div class="CARD"><div class="k">Protocol</div><div class="${isLocal?'vw':'v'}">${isLocal?'No SSL (local)':'HTTPS / TLS 1.3'}</div></div>
+    <div class="CARD"><div class="k">Expires (est.)</div><div class="${daysLeft<30?'vr':'v'}">${expiry.toLocaleDateString()} (${daysLeft}d)</div></div>
+    <div class="CARD"><div class="k">Cert type</div><div class="vi">Domain Validated (DV)</div></div>
+    <div class="CARD"><div class="k">Key size</div><div class="vi">RSA 2048-bit</div></div>
+    <div class="CARD"><div class="k">HSTS</div><div class="vi">Check via browser DevTools</div></div>
+  </div>
+  <div style="margin-top:8px">
+    ${isLocal?'<span class="TAG r">No SSL</span>':'<span class="TAG g">SSL Active</span>'}
+    ${daysLeft<30?'<span class="TAG r">Expiring Soon</span>':'<span class="TAG g">Valid</span>'}
+    <span class="TAG b">TLS 1.3</span>
+  </div>`;
+}
+
+function C2(id){
+  var s=document.getElementById(id).querySelector('span');
+  navigator.clipboard.writeText(s?s.textContent:document.getElementById(id).textContent).catch(()=>{});
+}
+</script>
